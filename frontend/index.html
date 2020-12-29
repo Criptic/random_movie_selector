@@ -23,6 +23,7 @@
                 resultDiv.innerText = "Refreshing the data";
                 refreshDataBtn.style.display = "none";
                 rndMovieBtn.style.display = "none";
+                watchMovieBtn.style.display = 'none';
                 fetch('http://localhost:3000/refreshData')
                 .then(res => {
                     resultDiv.innerHTML = "";

@@ -8,7 +8,7 @@ const app = express();
 
 // Load base configurations
 const config = require('./configuration.json');
-const {spreadsheetId, sheetName, range, watchedStatusColumn, slackToken, slackChannelId} = config;
+const {spreadsheetId, sheetName, range, watchedStatusColumn, unwatchedSymbol, watchedSymbol, slackToken, slackChannelId} = config;
 
 // Base for the movie selection
 const path = './unwatchedMovies.json';
@@ -58,6 +58,11 @@ app.get('/refreshData', (req, res) => {
 
 app.get('/randomMovie', (req, res) => {
     let randomMovie = movieList[Math.floor(Math.random() * movieList.length)];
+    /**
+     * CUSTOMIZE HERE - OUTPUT FOR WEBSITE
+     * Do not alter the element with the id movieId
+     * Change the rest of the elements as needed (the amount of elements can be changed)
+     */
     let templateString = `
         <p id="movieId" style="display:none">${randomMovie[randomMovie.length - 1]}</p>
         <p><b>German-Title:</b> ${randomMovie[4]}</p>
@@ -72,18 +77,24 @@ app.get('/watchMovie', (req, res) => {
     movieList.map(row => {
         if(row[row.length - 1] == rowId) {
             // Send a message to Slack
+            /**
+             * CUSTOMIZE HERE - OUTPUT TO SLACK
+             * Change the string as needed, the size of the message can be changed
+             */
             let slackMessage = `English-Title: ${row[5]}, Release-Year: ${row[3]}`;
             publishMessage(slackChannelId, slackMessage);
             // Update the watched status in Google Sheets
             // Authorize a client with credentials, then call the Google Sheets API.
             authorize(CLIENTSECRET, updateRow);
             // Remove the movie from the unwatchedMovies.json
-            /*
             let updatedMovieList = movieList.filter(movie => movie[movie.length - 1] != rowId);
+            movieList = updatedMovieList;
             let result = JSON.stringify(updatedMovieList);
-            movieList = result;
             fs.writeFileSync('unwatchedMovies.json', result);
-            */
+            // Create a backup log of watched movies
+            fs.appendFile('watchedMovies.log', `${Date()}: ${slackMessage}`, function (err) {
+                if (err) throw err;
+              });
             return;
         }
     })
@@ -91,6 +102,11 @@ app.get('/watchMovie', (req, res) => {
 
 const server = app.listen(3000, () => console.log('Server ready'))
 
+/**
+ * Post a message to a Slack channel
+ * @param {String} id The Slack channel id to which the message will be posted.
+ * @param {String} text The content of the message.
+ */
 async function publishMessage(id, text) {
     try {
       // Call the chat.postMessage method using the built-in WebClient
@@ -161,22 +177,23 @@ function getNewToken(oAuth2Client, callback) {
 }
 
 /**
- * Prints the information in the movie collection spreadsheet:
+ * Stores the information in the movie collection spreadsheet:
  * @see https://docs.google.com/spreadsheets/d/<spreadsheetId>/edit
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
 function listMajors(auth) {
   unwatchedMovies = [];
+  const watchedStatusColumnIndex = watchedStatusColumn.charCodeAt(0) - 65;
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.get({
     spreadsheetId: spreadsheetId,
-    range: 'Movies!A:H',
+    range: `${sheetName}!${range}`,
   }, (err, res) => {
     if (err) return console.log('The API returned an error: ' + err);
     const rows = res.data.values;
     if (rows.length) {
       rows.map((row, index) => {
-        if(row[6] === '-'){
+        if(row[watchedStatusColumnIndex] === unwatchedSymbol){
             row.push(index + 1);
             unwatchedMovies.push(row)
         }
@@ -184,28 +201,25 @@ function listMajors(auth) {
     } else {
       console.log('No data found.');
     }
+    movieList = unwatchedMovies;
     let result = JSON.stringify(unwatchedMovies);
-    movieList = result;
     fs.writeFileSync('unwatchedMovies.json', result);
   });
 }
 
+/**
+ * Updates the watched status of a specific movie in the movie collection spreadsheet:
+ * @see https://docs.google.com/spreadsheets/d/<spreadsheetId>/edit
+ * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
+ */
 function updateRow(auth) {
     const sheets = google.sheets({version: 'v4', auth});
-    var values = [
-        [
-          'X'
-        ]
-      ];
-      var body = {
-        values: values
-      };
-      sheets.spreadsheets.values.update({
-         spreadsheetId: spreadsheetId,
-         range: `Movies!G${rowId}`,
-         valueInputOption: 'RAW',
-         resource: body
-      }).then(res => {
-        console.log(res);
-      });
+    var values = [[watchedSymbol]];
+    var body = {values: values};
+    sheets.spreadsheets.values.update({
+        spreadsheetId: spreadsheetId,
+        range: `${sheetName}!${watchedStatusColumn}${rowId}`,
+        valueInputOption: 'RAW',
+        resource: body
+      }).then(res => {console.log(res);});
 }
