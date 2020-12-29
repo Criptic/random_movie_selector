@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>Random Movie Selector</title>
+    </head>
+    <body>
+        <div id="result"></div>
+        <button id="refreshData">Refresh Data</button>
+        <button id="rndMovie">Random Movie</button>
+        <button style="display: none" id="watchMovie">OK</button>
+        <script>
+            let refreshDataBtn = document.getElementById('refreshData');
+            let resultDiv = document.getElementById('result');
+            let watchMovieBtn = document.getElementById('watchMovie');
+            let rndMovieBtn = document.getElementById('rndMovie');
+
+            refreshDataBtn.addEventListener('click', refreshData);
+            rndMovieBtn.addEventListener('click', randomMovie);
+            watchMovieBtn.addEventListener('click', watchMovie);
+
+            function refreshData() {
+                resultDiv.innerHTML = "";
+                resultDiv.style.display = "block";
+                resultDiv.innerText = "Refreshing the data";
+                refreshDataBtn.style.display = "none";
+                rndMovieBtn.style.display = "none";
+                fetch('http://localhost:3000/refreshData')
+                .then(res => {
+                    resultDiv.innerHTML = "";
+                    resultDiv.style.display = "none";
+                    refreshDataBtn.style.display = "inline";
+                    rndMovieBtn.style.display = "inline";
+                })
+            }
+
+            function randomMovie() {
+                resultDiv.style.display = 'none';
+                resultDiv.innerHTML = '';
+                watchMovieBtn.style.display = 'none';
+                fetch('http://localhost:3000/randomMovie')
+                .then(res => res.text())
+                .then(data => {
+                    resultDiv.innerHTML = data;
+                    resultDiv.style.display = 'block';
+                    watchMovieBtn.style.display = 'inline';
+                });
+            }
+
+            function watchMovie() {
+                let movieId = document.getElementById('movieId').innerText;
+                fetch(`http://localhost:3000/watchMovie?movieId=${movieId}`);
+            }
+        </script>
+    </body>
+</html>
