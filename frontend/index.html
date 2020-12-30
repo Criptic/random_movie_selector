@@ -1,6 +1,12 @@
 <html>
     <head>
         <title>Random Movie Selector</title>
+        <link rel="shortcut icon" href="localhost:3000/static/favicon.ico" type="image/x-icon">
+        <style>
+            button {
+                padding: 10;
+            }
+        </style>
     </head>
     <body>
         <div id="result"></div>
@@ -47,6 +53,7 @@
             }
 
             function watchMovie() {
+                watchMovieBtn.style.display = 'none';
                 let movieId = document.getElementById('movieId').innerText;
                 fetch(`http://localhost:3000/watchMovie?movieId=${movieId}`);
             }

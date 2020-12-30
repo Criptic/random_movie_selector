@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 243 245" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-678.5,-322.5)">
+        <g transform="matrix(1,0,0,1,32,0)">
+            <path d="M768,325C833.678,325 887,378.77 887,445C887,511.23 833.678,565 768,565C702.322,565 649,511.23 649,445C649,378.77 702.322,325 768,325ZM768,345.827C822.279,345.827 866.346,390.265 866.346,445C866.346,499.735 822.279,544.173 768,544.173C713.721,544.173 669.654,499.735 669.654,445C669.654,390.265 713.721,345.827 768,345.827Z" style="fill:rgb(235,235,235);fill-opacity:0;stroke:black;stroke-width:5px;"/>
+        </g>
+        <g id="Camera" transform="matrix(1,0,0,1,525,118)">
+            <g transform="matrix(6.1149e-17,1,-1,6.1149e-17,692,134)">
+                <path d="M205.5,448L223,483L188,483L205.5,448Z" style="fill:rgb(235,235,235);fill-opacity:0;stroke:black;stroke-width:2.5px;"/>
+            </g>
+            <rect x="246" y="312" width="90" height="53" style="fill:rgb(235,235,235);fill-opacity:0;stroke:black;stroke-width:2.5px;"/>
+            <g id="film-role-right" transform="matrix(1,0,0,1,58,-216)">
+                <path d="M261.5,502C271.159,502 279,510.066 279,520C279,529.934 271.159,538 261.5,538C251.841,538 244,529.934 244,520C244,510.066 251.841,502 261.5,502ZM261.5,511C266.329,511 270.25,515.033 270.25,520C270.25,524.967 266.329,529 261.5,529C256.671,529 252.75,524.967 252.75,520C252.75,515.033 256.671,511 261.5,511Z" style="fill:white;stroke:black;stroke-width:2.5px;"/>
+                <g transform="matrix(0.707107,-0.707107,0.707107,0.707107,-284.939,330.754)">
+                    <path d="M252.75,502L252.75,511" style="fill:none;stroke:black;stroke-width:2.5px;"/>
+                </g>
+                <g transform="matrix(0.707107,-0.707107,0.707107,0.707107,-265.939,349.754)">
+                    <path d="M252.75,502L252.75,511" style="fill:none;stroke:black;stroke-width:2.5px;"/>
+                </g>
+                <g transform="matrix(0.707107,0.707107,-0.707107,0.707107,450.996,-25.6888)">
+                    <path d="M252.75,502L252.75,511" style="fill:none;stroke:black;stroke-width:2.5px;"/>
+                </g>
+                <g transform="matrix(0.707107,0.707107,-0.707107,0.707107,431.996,-7.68884)">
+                    <path d="M252.75,502L252.75,511" style="fill:none;stroke:black;stroke-width:2.5px;"/>
+                </g>
+            </g>
+            <g id="film-role-left" transform="matrix(1,0,0,1,15,-216)">
+                <path d="M261.5,502C271.159,502 279,510.066 279,520C279,529.934 271.159,538 261.5,538C251.841,538 244,529.934 244,520C244,510.066 251.841,502 261.5,502ZM261.5,511C266.329,511 270.25,515.033 270.25,520C270.25,524.967 266.329,529 261.5,529C256.671,529 252.75,524.967 252.75,520C252.75,515.033 256.671,511 261.5,511Z" style="fill:white;stroke:black;stroke-width:2.5px;"/>
+                <g transform="matrix(0.707107,-0.707107,0.707107,0.707107,-284.939,330.754)">
+                    <path d="M252.75,502L252.75,511" style="fill:none;stroke:black;stroke-width:2.5px;"/>
+                </g>
+                <g transform="matrix(0.707107,-0.707107,0.707107,0.707107,-265.939,349.754)">
+                    <path d="M252.75,502L252.75,511" style="fill:none;stroke:black;stroke-width:2.5px;"/>
+                </g>
+                <g transform="matrix(0.707107,0.707107,-0.707107,0.707107,450.996,-25.6888)">
+                    <path d="M252.75,502L252.75,511" style="fill:none;stroke:black;stroke-width:2.5px;"/>
+                </g>
+                <g transform="matrix(0.707107,0.707107,-0.707107,0.707107,431.996,-7.68884)">
+                    <path d="M252.75,502L252.75,511" style="fill:none;stroke:black;stroke-width:2.5px;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -100,6 +100,7 @@ app.get('/watchMovie', (req, res) => {
     })
 })
 
+app.use('/static', express.static('frontend'))
 const server = app.listen(3000, () => console.log('Server ready'))
 
 /**

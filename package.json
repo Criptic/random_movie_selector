@@ -1,12 +1,12 @@
 {
-  "name": "server",
-  "version": "0.0.1",
-  "description": "",
+  "name": "random-movie-selector",
+  "version": "0.9.0",
+  "description": "Take all unwatched movies from a Google Sheet, select a random one and poste it to Slack",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "Criptic",
+  "author": "David Weik",
   "dependencies": {
     "@slack/events-api": "^2.3.4",
     "@slack/web-api": "^5.14.0",
