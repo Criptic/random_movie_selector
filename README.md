@@ -17,23 +17,23 @@ In the design folder I saved the affinity designer project and a svg of the logo
 
 # Google Sheets
 
-I'm using Google Sheets as my collection tracking medium, because I can access it on any device, it has a create set of features and can easily be shared. In the past I used the scripting engine for Google Sheets but I was never really pleased with this setup as it was slow (might be because of sloppy coding on my part) - in the folder archive_script I have included my previous setup.
+I'm using Google Sheets as my collection tracking medium, because I can access it on any device, it has a create set of features and can easily be shared. In the past I used the scripting engine for Google Sheets but I was never really pleased with this setup as it was slow (might be because of sloppy coding on my part) - in the folder *archive_script* I have included my previous setup.
 
 ## Google Sheets Layout
 
-Every movie collection is unique and so the different fields that are tracked are different. This application is flexible enough that with minimal effort any information that is stored inside of Google Sheets can be used. BUT **one column is needed** for this application and that is a column that tracks the **watch status**. Also another limitation is that more then 26 columns aren't supported and as I'm using only eight there are no plans on changing that.
+Every movie collection is unique and so the different fields that are tracked are different. This application is flexible enough that with minimal effort any information that is stored inside of Google Sheets can be used. BUT **one column is needed** for this application and that is a column that tracks the **watch status**. Also another limitation is that more than 26 columns aren't supported and as I'm using only eight there are no plans on changing that.
 
 ## Google Sheets API Setup
 
 Let's get up and running with the API
 
 1. Go to [https://console.developers.google.com](https://console.developers.google.com/)
-2. Create a new project with a name like _<RandomMovieSelector>_
+2. Create a new project with a name like *<RandomMovieSelector>*
 3. Search for the Google Sheets API and enable it
 4. On the page for the Google Sheets API click Create Credentials
-5. Set Up the OAuth consent screen by clicking on it in the side bar (Select External, Enter an App Name, user support email and email), under Scopes add the Google Sheets API with the endpoint /auth/spreadsheets, under Test Users add your own email (important use @googlemail.com)
-6. Then go to Credentials and click Create Credentials, Type: Desktop App and click through to the end
-7. Under OAuth 2.0 Client IDs you should be able to download the credentials, rename them to credentials.json and move them into the root directory for this application
+5. Set Up the OAuth consent screen by clicking on it in the side bar (Select External, Enter an App Name, user support email and email), under Scopes add the Google Sheets API with the endpoint */auth/spreadsheets*, under Test Users add your own email (important use @googlemail.com)
+6. Then go to Credentials and click Create Credentials, Type: *Desktop App* and click through to the end
+7. Under OAuth 2.0 Client IDs you should be able to download the credentials, rename them to *credentials.json* and move them into the root directory for this application
 
 # Slack App
 
@@ -46,24 +46,22 @@ I'm using a private channel for this application but a public one works just as 
 1. Log into the Slack workspace to which this application should write
 2. Go to [https://api.slack.com/start/overview#creating](https://api.slack.com/start/overview#creating)
 3. Click the Create a Slack App button
-4. Enter the App name (e.g. Random Movie Selector) and select the Slack workspace
-5. Under OAuth & Permissions go to Bot Token Spaces > Add an OAuth Scope and enter chat:write
+4. Enter the App name (e.g. *Random Movie Selector*) and select the Slack workspace
+5. Under OAuth & Permissions go to Bot Token Spaces > Add an OAuth Scope and enter *chat:write*
 6. Scroll back to the top, copy and save OAuth Token
 7. Click install to Workspace
 8. Go to the Slack workspace and add the bot to a channel
 9. Copy the channel id from the url [https://app.slack.com/client/<workspace-id/<](https://app.slack.com/client/TGXJPPTFE/G01HLJAKU05)channel-id>
 
-[https://api.slack.com/messaging/sending](https://api.slack.com/messaging/sending)
-
 # Raspberry Pi
 
-Attach the Raspberry Pi to a Monitor or ssh into the Raspberry Pi (get the IP address of the Pi either through the router or type hostname -I in the shell of the Raspberry Pi
+Attach the Raspberry Pi to a Monitor or ssh into the Raspberry Pi (get the IP address of the Pi either through the router or type *hostname -I* in the shell of the Raspberry Pi
 
 ```bash
 ssh pi@<ip-address>
 ```
 
-Install node.js & npm on the Pi
+Install node.js & npm on the Pi via the shell
 
 ```bash
 sudo apt-get update
@@ -72,7 +70,7 @@ sudo apt install nodejs npm
 node -v
 ```
 
-Change into the folder the application should be downloaded into (e.g. Documents)
+Change into the folder the application should be downloaded into (e.g. *Documents*)
 
 ```bash
 cd <~/Documents>
@@ -96,7 +94,7 @@ Install the required packages for the application to run
 npm install
 ```
 
-Create the configuration.json file with the needed contents - replace <> with the corresponding information - here all the collected information needs to be filled in
+Create the *configuration.json* file with the needed contents - replace <> with the corresponding information - here all the collected information needs to be filled in
 
 ```bash
 cat << EOF > configuration.json
@@ -113,7 +111,7 @@ cat << EOF > configuration.json
 EOF
 ```
 
-Add the credentials.json file to the root folder of this application. Search for the two comments (CUSTOMIZE HERE) in app.js and adapt it according to the structure of the provided Google Sheets.
+Add the *credentials.json* file to the root folder of this application. Search for the two comments (**CUSTOMIZE HERE**) in *app.js* and adapt it according to the structure of the provided Google Sheets.
 
 After all this start up the application for the first time
 
@@ -121,13 +119,13 @@ After all this start up the application for the first time
 npm start
 ```
 
-Open up [localhost:3000](http://localhost:3000) in the web browser and hit the button Refresh Data, go back to the terminal, copy the URL into the web browser, authenticate with the Google Account which has access to the Google Sheet and copy the token back into the terminal. Now the application set up and ready to go.
+Open up [localhost:3000](http://localhost:3000) in the web browser and hit the button Refresh Data, go back to the shell, copy the URL into the web browser, authenticate with the Google Account which has access to the Google Sheet and copy the token back into the shell. Now the application set up and ready to go.
 
 ## Set up to start the application on boot
 
-Two things are needed for this application to be coming up when starting the Raspberry Pi. First the server needs to be started and second a browser with the URL to the application needs to be opened.
+Two things are needed for this application to be coming up when starting the Raspberry Pi. First the server needs to be started and second a browser with the URL to the application needs to be opened (I'm using the preinstalled Chromium browser in [kiosk mode](https://en.wikipedia.org/wiki/Kiosk_software)).
 
-To get the server up and running I'm using the npm module forever to register the application as a service
+To get the server up and running I'm using the npm-module forever to register the application as a service
 
 ```bash
 sudo npm install forever -g
