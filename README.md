@@ -113,7 +113,9 @@ cat << EOF > configuration.json
 EOF
 ```
 
-Add the credentials.json file to the root folder of this application. After all this start up the application for the first time
+Add the credentials.json file to the root folder of this application. Search for the two comments (CUSTOMIZE HERE) in app.js and adapt it according to the structure of the provided Google Sheets.
+
+After all this start up the application for the first time
 
 ```bash
 npm start
