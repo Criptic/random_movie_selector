@@ -20,7 +20,7 @@ const TOKEN_PATH = 'token.json';
 let rowId = null;
 let CLIENTSECRET = "";
 // Load client secrets from a local file.
-fs.readFile('credentials.json', (err, content) => {
+fs.readFile('credentials.json', 'utf-8', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     else CLIENTSECRET = JSON.parse(content);
 });
@@ -39,7 +39,7 @@ if (fs.existsSync(path)) {
     movieList = JSON.parse(rawMovies);
   } else {
     // Authorize a client with credentials, then call the Google Sheets API.
-    authorize(CLIENTSECRET, listMajors);
+    authorize(CLIENTSECRET, listMovies);
 }
 
 app.get('/', (req, res) => {
@@ -48,10 +48,10 @@ app.get('/', (req, res) => {
 
 app.get('/refreshData', (req, res) => {
     // Load client secrets from a local file.
-    fs.readFile('credentials.json', (err, content) => {
+    fs.readFile('credentials.json', 'utf-8', (err, content) => {
         if (err) return console.log('Error loading client secret file:', err);
         // Authorize a client with credentials, then call the Google Sheets API.
-        authorize(JSON.parse(content), listMajors);
+        authorize(JSON.parse(content), listMovies);
         res.send();
     });
 });
@@ -90,9 +90,9 @@ app.get('/watchMovie', (req, res) => {
             let updatedMovieList = movieList.filter(movie => movie[movie.length - 1] != rowId);
             movieList = updatedMovieList;
             let result = JSON.stringify(updatedMovieList);
-            fs.writeFileSync('unwatchedMovies.json', result);
+            fs.writeFileSync('unwatchedMovies.json', result, 'utf-8');
             // Create a backup log of watched movies
-            fs.appendFile('watchedMovies.log', `${Date()}: ${slackMessage}`, function (err) {
+            fs.appendFile('watchedMovies.log', `${Date()}: ${slackMessage}`, 'utf-8', function (err) {
                 if (err) throw err;
               });
             return;
@@ -139,7 +139,7 @@ function authorize(credentials, callback) {
       client_id, client_secret, redirect_uris[0]);
 
   // Check if we have previously stored a token.
-  fs.readFile(TOKEN_PATH, (err, token) => {
+  fs.readFile(TOKEN_PATH, 'utf-8', (err, token) => {
     if (err) return getNewToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
     callback(oAuth2Client);
@@ -168,7 +168,7 @@ function getNewToken(oAuth2Client, callback) {
       if (err) return console.error('Error while trying to retrieve access token', err);
       oAuth2Client.setCredentials(token);
       // Store the token to disk for later program executions
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+      fs.writeFile(TOKEN_PATH, JSON.stringify(token), 'utf-8', (err) => {
         if (err) return console.error(err);
         console.log('Token stored to', TOKEN_PATH);
       });
@@ -182,7 +182,7 @@ function getNewToken(oAuth2Client, callback) {
  * @see https://docs.google.com/spreadsheets/d/<spreadsheetId>/edit
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
-function listMajors(auth) {
+function listMovies(auth) {
   unwatchedMovies = [];
   const watchedStatusColumnIndex = watchedStatusColumn.charCodeAt(0) - 65;
   const sheets = google.sheets({version: 'v4', auth});
@@ -204,7 +204,7 @@ function listMajors(auth) {
     }
     movieList = unwatchedMovies;
     let result = JSON.stringify(unwatchedMovies);
-    fs.writeFileSync('unwatchedMovies.json', result);
+    fs.writeFileSync('unwatchedMovies.json', result, 'utf-8');
   });
 }
 

@@ -120,3 +120,25 @@ npm start
 ```
 
 Open up [localhost:3000](http://localhost:3000) in the web browser and hit the button Refresh Data, go back to the terminal, copy the URL into the web browser, authenticate with the Google Account which has access to the Google Sheet and copy the token back into the terminal. Now the application set up and ready to go.
+
+## Set up to start the application on boot
+
+Two things are needed for this application to be coming up when starting the Raspberry Pi. First the server needs to be started and second a browser with the URL to the application needs to be opened.
+
+To get the server up and running I'm using the npm module forever to register the application as a service
+
+```bash
+sudo npm install forever -g
+sudo npm install forever-service -g
+sudo forever-service install <service_name e.g random_movie_selector> -- script <path to app.js e.g /home/pi/Documents/random_movie_selector/app.js>
+sudo service <service_name> start
+```
+
+And now start up the browser with the website opened up in a tab
+
+```bash
+sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+/usr/bin/chromium-browser --kiosk  --disable-restore-session-state http://localhost:3000
+```
+
+The only problem for me with this solution is, that I have to hit the refresh button because it takes a bit longer for the server to start up but I'm okay with this solution.
