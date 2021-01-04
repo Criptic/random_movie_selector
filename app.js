@@ -3,12 +3,13 @@ const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
 const { WebClient, LogLevel } = require("@slack/web-api");
+const {exec} = require('child_process');
 
 const app = express();
 
 // Load base configurations
 const config = require('./configuration.json');
-const {spreadsheetId, sheetName, range, watchedStatusColumn, unwatchedSymbol, watchedSymbol, slackToken, slackChannelId} = config;
+const {spreadsheetId, sheetName, range, watchedStatusColumn, unwatchedSymbol, watchedSymbol, slackToken, slackChannelId, runsOnRaspberryPi} = config;
 
 // Base for the movie selection
 const path = './unwatchedMovies.json';
@@ -92,9 +93,23 @@ app.get('/watchMovie', (req, res) => {
             let result = JSON.stringify(updatedMovieList);
             fs.writeFileSync('unwatchedMovies.json', result, 'utf-8');
             // Create a backup log of watched movies
-            fs.appendFile('watchedMovies.log', `${Date()}: ${slackMessage}`, 'utf-8', function (err) {
+            fs.appendFileSync('watchedMovies.log', `${Date()}: ${slackMessage}\n`, 'utf-8', function (err) {
                 if (err) throw err;
               });
+            // Shutdown the RaspberryPi upon finding a movie
+            if(runsOnRaspberryPi) {
+              exec("sudo shutdown -h", (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    return;
+                }
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    return;
+                }
+                console.log(`stdout: ${stdout}`);
+              });
+            }
             return;
         }
     })
