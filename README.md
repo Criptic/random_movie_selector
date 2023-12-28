@@ -101,6 +101,13 @@ EOF
 
 Add the _credentials.json_ file to the root folder of this application. Search for the two comments (**CUSTOMIZE HERE**) in _app.js_ and adapt it according to the structure of the provided Google Sheets.
 
+The spreadsheet ID can be found in the URL bar if you have it open: https://docs.google.com/spreadsheets/d/\<ID\>/edit
+The sheet name is the name of the Google Sheet that you see at the bottom
+The range is what contains the actual data, e.g. A:H - there is no need to add the row number
+The watched status column is the letter of the column which contains your marker if a movie is watched or not - e.g. G
+The unwachted symbol identifies movies that haven't yet been watched - e.g. -
+The watched symbol identifies movies that have already been watched - e.g. X
+
 After all this start up the application for the first time
 
 ```bash
